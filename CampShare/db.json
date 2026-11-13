@@ -1,0 +1,70 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "title": "Matematică. Manual pentru clasa a XI-a",
+      "category": "manual",
+      "subject": "Matematică · profil real",
+      "owner": "Ana Popescu",
+      "contact": "Telegram: @ana.p",
+      "description": "Ediție nouă, copertă și pagini în stare foarte bună.",
+      "status": "available",
+      "createdAt": "2026-10-28T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Admitere la Informatică — probleme rezolvate",
+      "category": "workbook",
+      "subject": "Informatică",
+      "owner": "Mihai Ionescu",
+      "contact": "Grupa 11B",
+      "description": "Are câteva notițe pe margine, toate exercițiile sunt intacte.",
+      "status": "borrowed",
+      "createdAt": "2026-10-26T14:30:00.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Calculator științific Casio FX-991",
+      "category": "equipment",
+      "subject": "Matematică · Fizică",
+      "owner": "Ana Popescu",
+      "contact": "Telegram: @ana.p",
+      "description": "Funcționează perfect, cu husă și instrucțiuni.",
+      "status": "available",
+      "createdAt": "2026-10-24T09:15:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Ion — Liviu Rebreanu",
+      "category": "literature",
+      "subject": "Limba și literatura română",
+      "owner": "Elena Dumitru",
+      "contact": "Telefon: 07xx xxx xxx",
+      "description": "Ediție de buzunar, sublinieri discrete la câteva capitole.",
+      "status": "available",
+      "createdAt": "2026-10-21T12:05:00.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Fizică. Probleme pentru bacalaureat",
+      "category": "workbook",
+      "subject": "Fizică",
+      "owner": "Ana Popescu",
+      "contact": "Telegram: @ana.p",
+      "description": "Culegere completă, rezolvări verificate la final.",
+      "status": "borrowed",
+      "createdAt": "2026-10-19T08:40:00.000Z"
+    },
+    {
+      "id": 6,
+      "title": "Set de desen tehnic, 8 piese",
+      "category": "equipment",
+      "subject": "Desen tehnic",
+      "owner": "Andrei Marin",
+      "contact": "Grupa 10A",
+      "description": "Rigle, echer și compas, păstrate în penar rigid.",
+      "status": "available",
+      "createdAt": "2026-10-16T16:20:00.000Z"
+    }
+  ]
+}
