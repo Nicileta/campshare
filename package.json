@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently -k -n api,web \"npm:api\" \"npm:web\"",
-    "web": "vite --open",
+    "web": "node scripts/wait-for-api.js && vite --open",
     "api": "json-server --watch db.json --port 3001",
     "build": "vite build",
     "lint": "oxlint",
+    "test": "vitest run",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "concurrently": "^10.0.7",
     "json-server": "^0.17.4",
     "oxlint": "^1.90.0",
+    "vitest": "^4.0.18",
     "vite": "^8.3.6"
   }
 }
