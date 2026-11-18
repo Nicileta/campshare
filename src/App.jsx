@@ -14,6 +14,7 @@ import {
   LoaderCircle,
   Pencil,
   Plus,
+  RefreshCw,
   Search,
   Trash2,
   X,
@@ -24,6 +25,7 @@ import {
   getResources,
   updateResource,
 } from './services/api.js'
+import { filterAndSortResources, getResourceCounts } from './utils/resources.js'
 import './App.css'
 
 const categories = [
@@ -61,6 +63,7 @@ const emptyResource = {
 function App() {
   const [resources, setResources] = useState([])
   const [loading, setLoading] = useState(true)
+  const [refreshing, setRefreshing] = useState(false)
   const [loadError, setLoadError] = useState('')
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('all')
@@ -88,23 +91,31 @@ function App() {
     }
   }, [])
 
-  const availableCount = resources.filter((resource) => resource.status === 'available').length
-  const borrowedCount = resources.length - availableCount
-  const visibleResources = resources
-    .filter((resource) => view !== 'mine' || resource.owner === 'Ana Popescu')
-    .filter((resource) => category === 'all' || resource.category === category)
-    .filter((resource) => {
-      const searchable = `${resource.title} ${resource.subject} ${resource.owner} ${resource.description}`
-      return searchable.toLocaleLowerCase('ro').includes(query.toLocaleLowerCase('ro'))
-    })
-    .sort((first, second) => {
-      if (sort === 'alphabetical') return first.title.localeCompare(second.title, 'ro')
-      return new Date(second.createdAt || 0) - new Date(first.createdAt || 0)
-    })
+  const { available: availableCount, borrowed: borrowedCount } = getResourceCounts(resources)
+  const visibleResources = filterAndSortResources(resources, {
+    query,
+    category,
+    sort,
+    view,
+    owner: 'Ana Popescu',
+  })
 
   function showToast(message) {
     setToast(message)
     window.setTimeout(() => setToast(''), 2800)
+  }
+
+  async function refreshResources() {
+    setRefreshing(true)
+    setActionError('')
+    try {
+      const data = await getResources()
+      setResources(data)
+    } catch {
+      setActionError('Catalogul nu a putut fi reîmprospătat. Verifică serverul API.')
+    } finally {
+      setRefreshing(false)
+    }
   }
 
   async function saveResource(values) {
@@ -194,14 +205,20 @@ function App() {
             <h2>{view === 'mine' ? 'Materialele mele' : 'Explorează catalogul'}</h2>
             <p>{visibleResources.length} {visibleResources.length === 1 ? 'resursă găsită' : 'resurse găsite'}</p>
           </div>
-          <label className="sort-control">
-            <ArrowDownUp size={15} />
-            <select aria-label="Sortează resursele" value={sort} onChange={(event) => setSort(event.target.value)}>
-              <option value="recent">Cele mai recente</option>
-              <option value="alphabetical">Alfabetic</option>
-            </select>
-            <ChevronDown size={14} />
-          </label>
+          <div className="catalog-controls">
+            <button className="button button-secondary refresh-button" onClick={refreshResources} disabled={loading || refreshing}>
+              <RefreshCw className={refreshing ? 'spin' : ''} size={15} />
+              {refreshing ? 'Se actualizează...' : 'Reîncarcă'}
+            </button>
+            <label className="sort-control">
+              <ArrowDownUp size={15} />
+              <select aria-label="Sortează resursele" value={sort} onChange={(event) => setSort(event.target.value)}>
+                <option value="recent">Cele mai recente</option>
+                <option value="alphabetical">Alfabetic</option>
+              </select>
+              <ChevronDown size={14} />
+            </label>
+          </div>
         </div>
 
         <div className="filter-row" role="group" aria-label="Filtrează după categorie">
